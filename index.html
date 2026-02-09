@@ -8,122 +8,152 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1e293b; overflow-x: hidden; }
         .nav-card { background: white; border: 1px solid #e5e7eb; border-radius: 20px; transition: all 0.2s; cursor: pointer; }
         .nav-card:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
         .nav-card.disabled { opacity: 0.5; cursor: not-allowed; grayscale: 1; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <nav class="border-b border-gray-200 bg-white">
+    <nav class="border-b border-gray-200 bg-white sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <span onclick="window.location.reload()" class="text-xl font-bold tracking-tight text-blue-600 cursor-pointer">GATA.RO</span>
+            <span onclick="goHome()" class="text-xl font-bold tracking-tight text-blue-600 cursor-pointer uppercase">Gata.ro</span>
             <div class="flex items-center gap-4">
-                <button class="text-slate-400 hover:text-blue-600 transition-colors">
-                    <i class="fa-solid fa-circle-user text-2xl"></i>
+                <span class="text-xs font-semibold text-slate-500 hidden sm:block">Salut, <span id="userNameDisplay">Coco</span>!</span>
+                <button onclick="toggleModal('profileModal')" class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold border border-blue-200 hover:bg-blue-200 transition-colors">
+                    C
                 </button>
             </div>
         </div>
     </nav>
 
     <main id="homePage" class="max-w-5xl mx-auto py-16 px-6">
-        <div class="mb-12">
-            <h1 class="text-3xl font-bold text-slate-900 mb-2 text-center">Bună, Coco!</h1>
-            <p class="text-slate-500 text-center">Ce documente vrei să generăm astăzi?</p>
-        </div>
-
-        <div class="max-w-xl mx-auto mb-16">
-            <div class="relative">
-                <input type="text" placeholder="Caută actul dorit..." class="w-full py-4 px-6 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white shadow-sm">
-                <i class="fa-solid fa-magnifying-glass absolute right-6 top-5 text-slate-300"></i>
-            </div>
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-slate-900 mb-3 tracking-tight">Ce generăm astăzi?</h1>
+            <p class="text-slate-500">Documente oficiale gata în câteva secunde.</p>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            
-            <div onclick="openProject('auto')" class="nav-card p-8 flex flex-col items-center justify-center text-center">
+            <div onclick="openProject('auto')" class="nav-card p-10 flex flex-col items-center justify-center">
                 <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 text-2xl">
                     <i class="fa-solid fa-car"></i>
                 </div>
-                <span class="font-bold text-sm">Vânzare / Înmatriculare</span>
+                <span class="font-bold text-sm uppercase tracking-tighter text-slate-700">Dosar Auto</span>
             </div>
 
-            <div class="nav-card disabled p-8 flex flex-col items-center justify-center text-center">
+            <div class="nav-card disabled p-10 flex flex-col items-center justify-center">
                 <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
                     <i class="fa-solid fa-house"></i>
                 </div>
-                <span class="font-bold text-sm text-slate-400">Închiriere Locuință</span>
+                <span class="font-bold text-sm text-slate-400">Locuință</span>
             </div>
 
-            <div class="nav-card disabled p-8 flex flex-col items-center justify-center text-center">
+            <div class="nav-card disabled p-10 flex flex-col items-center justify-center">
                 <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-briefcase"></i>
+                    <i class="fa-solid fa-file-invoice"></i>
                 </div>
-                <span class="font-bold text-sm text-slate-400">Contract Muncă</span>
+                <span class="font-bold text-sm text-slate-400">PFA / SRL</span>
             </div>
 
-            <div class="nav-card disabled p-8 flex flex-col items-center justify-center text-center">
+            <div class="nav-card disabled p-10 flex flex-col items-center justify-center text-center">
                 <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
                     <i class="fa-solid fa-ellipsis"></i>
                 </div>
-                <span class="font-bold text-sm text-slate-400">Alte Cereri</span>
+                <span class="font-bold text-sm text-slate-400">Altele</span>
             </div>
         </div>
     </main>
 
     <main id="projectPage" class="max-w-5xl mx-auto py-12 px-6 hidden">
-        <button onclick="closeProject()" class="text-blue-600 font-bold text-sm mb-8 flex items-center gap-2">
-            <i class="fa-solid fa-arrow-left"></i> Înapoi la listă
+        <button onclick="goHome()" class="text-slate-400 hover:text-blue-600 font-bold text-xs mb-8 flex items-center gap-2 uppercase tracking-widest transition-colors">
+            <i class="fa-solid fa-chevron-left"></i> Înapoi la listă
         </button>
 
-        <div class="mb-12">
-            <h1 class="text-2xl font-bold text-slate-900 mb-2">Dosar Înstrăinare Auto</h1>
-            <p class="text-slate-500 mb-8 font-medium italic italic">Datele tale de beneficiar vor fi preluate automat din profil.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
-                <button onclick="selectRole('vanzator')" class="nav-card p-6 flex flex-col items-center">
-                    <i class="fa-solid fa-hand-holding-dollar text-2xl text-blue-500 mb-3"></i>
-                    <span class="font-bold">Sunt Vânzător</span>
+        <div class="text-center mb-12">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">Cine ești în acest proces?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-16">
+                <button onclick="selectRole('vanzator')" class="nav-card p-10 flex flex-col items-center">
+                    <i class="fa-solid fa-hand-holding-dollar text-3xl text-blue-500 mb-4"></i>
+                    <span class="font-bold text-lg text-slate-800">Eu vând mașina</span>
+                    <p class="text-[10px] text-slate-400 mt-2 italic">Datele tale se preiau automat</p>
                 </button>
-                <button onclick="selectRole('cumparator')" class="nav-card p-6 flex flex-col items-center">
-                    <i class="fa-solid fa-cart-shopping text-2xl text-blue-500 mb-3"></i>
-                    <span class="font-bold">Sunt Cumpărător</span>
+                <button onclick="selectRole('cumparator')" class="nav-card p-10 flex flex-col items-center">
+                    <i class="fa-solid fa-cart-shopping text-3xl text-blue-500 mb-4"></i>
+                    <span class="font-bold text-lg text-slate-800">Eu cumpăr mașina</span>
+                    <p class="text-[10px] text-slate-400 mt-2 italic">Generăm acte impunere/înmatriculare</p>
                 </button>
             </div>
 
-            <div id="scanSection" class="hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    <label class="nav-card p-6 border-dashed border-2 flex flex-col items-center cursor-pointer">
+            <div id="scanSection" class="hidden max-w-2xl mx-auto mb-16">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Scanare documente partener</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="nav-card p-8 border-dashed border-2 flex flex-col items-center cursor-pointer">
                         <i class="fa-solid fa-camera text-blue-500 text-xl mb-3"></i>
-                        <span id="scanLabel" class="text-sm font-medium">Scanare Buletin Partener</span>
+                        <span id="scanLabel" class="text-sm font-medium">Buletin Partener</span>
                         <input type="file" class="hidden">
                     </label>
-                    <label class="nav-card p-6 border-dashed border-2 flex flex-col items-center cursor-pointer">
+                    <label class="nav-card p-8 border-dashed border-2 flex flex-col items-center cursor-pointer">
                         <i class="fa-solid fa-car text-blue-500 text-xl mb-3"></i>
-                        <span class="text-sm font-medium text-center">Scanare Carte Vehicul (CIV)</span>
+                        <span class="text-sm font-medium">Carte Vehicul (CIV)</span>
                         <input type="file" class="hidden">
                     </label>
                 </div>
             </div>
 
-            <div id="docsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+            <div id="docsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
                 </div>
         </div>
     </main>
 
+    <div id="profileModal" class="modal px-4">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl relative">
+            <button onclick="toggleModal('profileModal')" class="absolute top-8 right-8 text-slate-300 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-8 text-slate-800 tracking-tight">Profilul tău</h2>
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Nume Complet</label>
+                    <input type="text" id="profName" placeholder="ex: Popescu Ion" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">CNP</label>
+                    <input type="text" id="profCNP" placeholder="13 cifre" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Adresă Domiciliu</label>
+                    <input type="text" id="profAddr" placeholder="Strada, Nr, Bloc..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-medium">
+                </div>
+                <button onclick="saveProfile()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all mt-4">
+                    Salvează Datele
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function openProject(type) {
+        function toggleModal(id) { document.getElementById(id).classList.toggle('active'); }
+        function goHome() { 
+            document.getElementById('homePage').classList.remove('hidden'); 
+            document.getElementById('projectPage').classList.add('hidden'); 
+        }
+        function openProject(type) { 
             if(type === 'auto') {
-                document.getElementById('homePage').classList.add('hidden');
-                document.getElementById('projectPage').classList.remove('hidden');
+                document.getElementById('homePage').classList.add('hidden'); 
+                document.getElementById('projectPage').classList.remove('hidden'); 
             }
         }
 
-        function closeProject() {
-            document.getElementById('homePage').classList.remove('hidden');
-            document.getElementById('projectPage').classList.add('hidden');
+        function saveProfile() {
+            const name = document.getElementById('profName').value;
+            localStorage.setItem('gata_name', name);
+            document.getElementById('userNameDisplay').innerText = name || 'Coco';
+            toggleModal('profileModal');
+            alert('Profil salvat! Luna va folosi aceste date automat.');
         }
 
         function selectRole(role) {
@@ -134,29 +164,35 @@
             if(role === 'vanzator') {
                 label.innerText = "Scanare Buletin CUMPĂRĂTOR";
                 grid.innerHTML = `
-                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm">
-                        <div class="text-[10px] text-blue-600 font-bold mb-2">DATE PROFIL UTILIZATE</div>
-                        <div class="font-bold text-sm">1. Contract Vânzare</div>
+                    <div class="nav-card p-8 border-l-4 border-l-blue-500 flex flex-col items-start">
+                        <span class="text-[10px] font-bold text-blue-600 uppercase mb-2">Auto-fill profil</span>
+                        <span class="font-bold text-slate-800">1. Contract Vânzare</span>
                     </div>
-                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
-                        <div class="font-bold text-sm">2. Declarație Radiere</div>
+                    <div class="nav-card p-8 border-l-4 border-l-slate-200 opacity-50 flex flex-col items-start">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase mb-2">Model ITL-016</span>
+                        <span class="font-bold text-slate-400">2. Scoatere Fisc</span>
                     </div>
                 `;
             } else {
                 label.innerText = "Scanare Buletin VÂNZĂTOR";
                 grid.innerHTML = `
-                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
-                        <div class="font-bold text-sm">1. Contract Cumpărare</div>
+                    <div class="nav-card p-8 border-l-4 border-l-blue-500 flex flex-col items-start">
+                        <span class="text-[10px] font-bold text-blue-600 uppercase mb-2">Auto-fill profil</span>
+                        <span class="font-bold text-slate-800">1. Contract Cumpărare</span>
                     </div>
-                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
-                        <div class="font-bold text-sm">2. Declarație Impunere</div>
-                    </div>
-                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
-                        <div class="font-bold text-sm">3. Cerere Înmatriculare</div>
+                    <div class="nav-card p-8 border-l-4 border-l-slate-200 opacity-50 flex flex-col items-start">
+                        <span class="font-bold text-slate-400 uppercase mb-2">Model ITL-005</span>
+                        <span class="font-bold text-slate-400">2. Impunere Fisc</span>
                     </div>
                 `;
             }
         }
+        
+        // Load initial data
+        window.onload = () => {
+            const savedName = localStorage.getItem('gata_name');
+            if(savedName) document.getElementById('userNameDisplay').innerText = savedName;
+        };
     </script>
 </body>
 </html>
