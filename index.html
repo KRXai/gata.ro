@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gata.ro — Simplu</title>
+    <title>Gata.ro — Simplu și Rapid</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; margin: 0; }
         .card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; transition: 0.2s; cursor: pointer; }
         .card:hover { border-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .hidden { display: none; }
@@ -18,15 +18,18 @@
 </head>
 <body>
 
-    <nav class="bg-white border-b p-4 flex justify-between items-center sticky top-0 z-50">
-        <strong onclick="location.reload()" class="text-blue-600 cursor-pointer text-xl tracking-tighter">GATA.RO</strong>
-        <button onclick="deschideProfil()" class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full border border-blue-100">
+    <nav class="bg-white border-b p-4 flex justify-between items-center sticky top-0 z-50 h-16">
+        <strong onclick="window.location.reload()" class="text-blue-600 cursor-pointer text-xl tracking-tighter">GATA.RO</strong>
+        <button onclick="document.getElementById('modalProfil').style.display='flex'" class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full border border-blue-100 flex items-center justify-center">
             <i class="fa-solid fa-user"></i>
         </button>
     </nav>
 
     <div id="paginaHome" class="max-w-4xl mx-auto py-12 px-6">
-        <h1 class="text-3xl font-black mb-8 text-center text-slate-800">Salut, <span id="numeAfisat">Coco</span>!</h1>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-black mb-2 text-slate-800">Salut, <span id="numeAfisat">Coco</span>!</h1>
+            <p class="text-slate-400 font-medium italic">Alege un act pentru a începe.</p>
+        </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div onclick="deschideAuto()" class="card p-10 flex flex-col items-center">
@@ -34,7 +37,7 @@
                 <span class="font-bold uppercase text-xs tracking-widest text-slate-600">Vânzare Auto</span>
             </div>
             
-            <div class="card p-10 flex flex-col items-center opacity-40 cursor-not-allowed">
+            <div class="card p-10 flex flex-col items-center opacity-40 grayscale cursor-not-allowed">
                 <i class="fa-solid fa-house text-4xl text-slate-400 mb-4"></i>
                 <span class="font-bold uppercase text-xs tracking-widest text-slate-400 text-center">Locuință (Curând)</span>
             </div>
@@ -42,82 +45,104 @@
     </div>
 
     <div id="paginaAuto" class="max-w-4xl mx-auto py-12 px-6 hidden">
-        <button onclick="goHome()" class="text-blue-600 font-bold mb-8 text-sm uppercase tracking-widest">
-            ← Înapoi
+        <button onclick="goHome()" class="text-blue-600 font-bold mb-10 text-xs uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Înapoi la Dashboard
         </button>
         
-        <h2 class="text-center font-black mb-10 text-slate-400 uppercase text-xs tracking-[0.2em]">Cine ești în contract?</h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-            <button onclick="selecteazaRol('vanzator')" class="card p-8 font-bold text-slate-700 uppercase hover:bg-blue-50">Sunt Vânzătorul</button>
-            <button onclick="selecteazaRol('cumparator')" class="card p-8 font-bold text-slate-700 uppercase hover:bg-blue-50">Sunt Cumpărătorul</button>
+        <div class="text-center mb-10">
+            <h2 class="font-black text-slate-400 uppercase text-[10px] tracking-[0.2em] mb-8 italic">Cine ești în acest contract?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                <button onclick="selecteazaRol('vanzator')" class="card p-8 font-bold text-slate-700 uppercase hover:bg-blue-50 text-sm tracking-tighter">Eu sunt Vânzătorul</button>
+                <button onclick="selecteazaRol('cumparator')" class="card p-8 font-bold text-slate-700 uppercase hover:bg-blue-50 text-sm tracking-tighter">Eu sunt Cumpărătorul</button>
+            </div>
         </div>
 
         <div id="zonaDocumente" class="hidden">
-            <div class="bg-blue-600 p-8 rounded-[2rem] text-white text-center mb-10">
-                <p class="font-bold mb-4 uppercase text-xs tracking-widest">Pasul 2: Încarcă pozele</p>
-                <input type="file" id="uploadInput" onchange="genereazaActe()" class="bg-blue-500 p-4 rounded-xl w-full">
+            <div class="bg-blue-600 p-10 rounded-[2.5rem] text-white text-center mb-10 shadow-xl shadow-blue-100">
+                <p class="font-bold mb-6 uppercase text-xs tracking-widest opacity-80">Pasul 2: Încarcă pozele actelor</p>
+                <div class="flex justify-center">
+                    <input type="file" id="uploadInput" onchange="genereazaActe()" class="text-sm bg-blue-500 p-4 rounded-2xl w-full max-w-xs">
+                </div>
             </div>
-            <div id="listaActe" class="grid gap-4"></div>
+            <div id="listaActe" class="grid gap-4">
+                </div>
         </div>
     </div>
 
-    <div id="modalProfil" class="modal">
-        <div class="bg-white p-10 rounded-[2rem] w-full max-w-md relative">
-            <button onclick="inchideProfil()" class="absolute top-6 right-6 text-slate-300">X</button>
-            <h2 class="text-xl font-black mb-6">Profilul tău</h2>
-            <input type="text" id="inputNume" placeholder="Numele tău" class="w-full p-4 border rounded-xl mb-4">
-            <button onclick="salveazaProfil()" class="w-full bg-blue-600 text-white p-4 rounded-xl font-bold">Salvează</button>
+    <div id="modalProfil" class="modal" style="display:none;">
+        <div class="bg-white p-10 rounded-[2.5rem] w-full max-w-md relative shadow-2xl">
+            <button onclick="document.getElementById('modalProfil').style.display='none'" class="absolute top-8 right-8 text-slate-300 hover:text-slate-600">
+                <i class="fa-solid fa-times text-xl"></i>
+            </button>
+            <h2 class="text-2xl font-black mb-6 text-slate-800">Profilul tău</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Nume Complet</label>
+                    <input type="text" id="inputNume" placeholder="Numele tău" class="w-full p-4 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-slate-50">
+                </div>
+                <button onclick="salveazaProfil()" class="w-full bg-blue-600 text-white p-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-colors">Salvează Modificările</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // FUNCȚII NAVIGARE
+        // NAVIGARE
         function deschideAuto() {
-            document.getElementById('paginaHome').classList.add('hidden');
-            document.getElementById('paginaAuto').classList.remove('hidden');
+            document.getElementById('paginaHome').style.display = 'none';
+            document.getElementById('paginaAuto').style.display = 'block';
         }
 
         function goHome() {
-            document.getElementById('paginaHome').classList.remove('hidden');
-            document.getElementById('paginaAuto').classList.add('hidden');
+            document.getElementById('paginaHome').style.display = 'block';
+            document.getElementById('paginaAuto').style.display = 'none';
         }
 
         // PROFIL
-        function deschideProfil() { document.getElementById('modalProfil').classList.add('active'); }
-        function inchideProfil() { document.getElementById('modalProfil').classList.remove('active'); }
-        
         function salveazaProfil() {
             const nume = document.getElementById('inputNume').value;
             if(nume) {
                 document.getElementById('numeAfisat').innerText = nume;
                 localStorage.setItem('user_gata', nume);
             }
-            inchideProfil();
+            document.getElementById('modalProfil').style.display = 'none';
         }
 
-        // LOGICA AUTO
+        // LOGICA PROIECT
         function selecteazaRol(rol) {
-            document.getElementById('zonaDocumente').classList.remove('hidden');
+            document.getElementById('zonaDocumente').style.display = 'block';
             const lista = document.getElementById('listaActe');
-            let acte = rol === 'vanzator' ? ['Contract ITL-054', 'Radiere ITL-016'] : ['Contract ITL-054', 'Impunere ITL-005'];
+            let acte = rol === 'vanzator' ? ['Contract Vânzare (ITL-054)', 'Scoatere Fisc (ITL-016)'] : ['Contract Cumpărare (ITL-054)', 'Impunere Fisc (ITL-005)'];
             
-            lista.innerHTML = acte.map(a => `<div class="bg-white p-6 border rounded-2xl font-bold text-slate-400 border-l-4 border-l-blue-400">${a} <span class="text-[10px] block font-normal italic">Așteaptă scanare...</span></div>`).join('');
+            lista.innerHTML = acte.map(a => `
+                <div class="card p-6 flex justify-between items-center border-l-4 border-l-blue-400 opacity-60">
+                    <div>
+                        <span class="font-bold text-sm text-slate-800">${a}</span>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase mt-1">Așteptare date...</p>
+                    </div>
+                    <i class="fa-solid fa-clock text-slate-200"></i>
+                </div>
+            `).join('');
+            
+            // Scroll automat către documente
+            window.scrollBy({ top: 300, behavior: 'smooth' });
         }
 
         function genereazaActe() {
-            alert("Luna procesează pozele...");
+            alert("Luna analizează pozele și preia datele din profil...");
             setTimeout(() => {
                 const acte = document.getElementById('listaActe').children;
                 for(let a of acte) {
-                    a.classList.replace('text-slate-400', 'text-green-600');
-                    a.classList.replace('border-l-blue-400', 'border-l-green-500');
-                    a.querySelector('span').innerText = "✓ COMPLETAT AUTOMAT";
+                    a.style.opacity = "1";
+                    a.style.borderLeftColor = "#22c55e"; // Green 500
+                    a.querySelector('p').innerText = "✓ DOCUMENT COMPLETAT";
+                    a.querySelector('p').style.color = "#16a34a"; // Green 600
+                    a.querySelector('i').className = "fa-solid fa-circle-check text-green-500";
                 }
-            }, 1000);
+                alert("Dosarul a fost generat cu succes!");
+            }, 1200);
         }
 
-        // INCARCARE INITIALA
+        // INITIALIZARE
         window.onload = () => {
             const salvat = localStorage.getItem('user_gata');
             if(salvat) {
