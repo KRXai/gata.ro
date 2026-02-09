@@ -3,79 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gata.ro — Juridic AI</title>
+    <title>Gata.ro — Proiect Dosar Auto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .doc-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .doc-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            border-color: #3b82f6;
-        }
+        .doc-card { transition: all 0.3s ease; }
+        .doc-card.completed { border-color: #22c55e; background-color: #f0fdf4; }
+        .doc-card.active { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .doc-card.pending { opacity: 0.5; filter: grayscale(1); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
 
-    <header class="max-w-4xl mx-auto pt-20 px-6 text-center">
-        <h1 class="text-4xl font-bold mb-8 tracking-tight">GATA.RO</h1>
-        <div class="relative max-w-xl mx-auto">
-            <input type="text" id="searchInput" onkeyup="filterDocs()" placeholder="Caută documentul dorit... (ex: auto)" 
-                   class="w-full py-4 px-6 rounded-full border border-slate-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg">
-            <i class="fa-solid fa-magnifying-glass absolute right-6 top-5 text-slate-400"></i>
+    <header class="max-w-4xl mx-auto pt-16 px-6 text-center">
+        <h1 class="text-4xl font-black mb-4 tracking-tighter text-slate-800">GATA.RO</h1>
+        <p class="text-slate-500 mb-8 font-medium">Asistentul tău pentru dosarul auto complet</p>
+        
+        <div class="relative max-w-xl mx-auto mb-12">
+            <input type="text" placeholder="Caută în dosar..." 
+                   class="w-full py-4 px-6 rounded-2xl border border-slate-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg bg-white">
+            <i class="fa-solid fa-magnifying-glass absolute right-6 top-5 text-slate-300"></i>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto py-16 px-6">
-        <div id="docsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            
-            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="adeverinta salariat">
-                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-briefcase"></i>
+    <div class="max-w-4xl mx-auto px-6 mb-10">
+        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center font-bold">1/4</div>
+                <div>
+                    <p class="text-xs uppercase tracking-wider font-bold text-slate-400">Status Dosar</p>
+                    <p class="text-sm font-bold text-slate-700">În curs de completare...</p>
                 </div>
-                <span class="font-medium">Adeverință Salariat</span>
             </div>
-
-            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="cerere eliberare buletin">
-                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-id-card"></i>
-                </div>
-                <span class="font-medium">Cerere Buletin</span>
+            <div class="w-full md:w-64 h-3 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 w-1/4 transition-all duration-700"></div>
             </div>
-
-            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="contract inchiriere">
-                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-house-chimney"></i>
-                </div>
-                <span class="font-medium">Contract Închiriere</span>
-            </div>
-
-            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="contract vanzare cumparare auto">
-                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-car"></i>
-                </div>
-                <span class="font-medium">Contract Vânzare Auto</span>
-            </div>
-
         </div>
-    </main>
+    </div>
 
-    <script>
-        function filterDocs() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('doc-card');
+    <main class="max-w-5xl mx-auto py-4 px-6 mb-20">
+        <div id="docsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            for (let i = 0; i < cards.length; i++) {
-                let name = cards[i].getAttribute('data-name');
-                if (name.includes(input)) {
-                    cards[i].style.display = "flex";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+            <div class="doc-card completed border-2 p-8 rounded-3xl flex flex-col items-center text-center cursor-pointer relative shadow-sm">
+                <div class="absolute top-4 right-4 text-green-500 text-xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <span class="font-bold text-slate-800">1. Contract Vânzare</span>
+                <span class="text-[10px] mt-2 bg-green-200 text-green-700 px-2 py-1 rounded-full font-bold uppercase">Gata de print</span>
+            </div>
+
+            <div class="doc-card active border-2 border-dashed p-8 rounded-3xl flex flex-col items-center text-center cursor-pointer bg-white">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl animate-pulse">
+                    <i class="fa-solid fa-car-burst"></i>
+                </div>
+                <span class="font-bold text-slate-800">2. Cerere Radiere</span>
+                <span class="text-[10px] mt-2 text-blue-500 font-bold uppercase">Se completează...</span>
+            </div>
+
+            <div class="doc-card pending border p-8 rounded-3xl flex flex-col items-center text-center cursor-default bg-white">
+                <div class="w-16 h-16 bg-slate-100 text-slate-400
