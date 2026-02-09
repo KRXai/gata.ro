@@ -3,130 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gata.ro — Simplificăm Actele</title>
+    <title>Gata.ro — Simplu și Rapid</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1e293b; }
-        .nav-card { background: white; border: 1px solid #e5e7eb; border-radius: 24px; transition: all 0.2s ease; cursor: pointer; }
-        .nav-card:hover { border-color: #3b82f6; transform: translateY(-4px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.05); }
-        .nav-card.disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1e293b; transition: all 0.3s ease; }
         
-        /* Modal Style */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        /* Cardurile mari care ți-au plăcut */
+        .nav-card { 
+            background: white; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 28px; 
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer; 
+        }
+        .nav-card:hover { 
+            border-color: #3b82f6; 
+            transform: translateY(-5px); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); 
+        }
+        .nav-card.disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
+
+        /* Modala fluidă */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(15, 23, 42, 0.6); 
+            z-index: 100; 
+            align-items: center; 
+            justify-content: center; 
+            backdrop-filter: blur(8px); 
+        }
         .modal.active { display: flex; }
+
+        .input-style { 
+            width: 100%; padding: 14px 18px; 
+            background: #f8fafc; border: 1px solid #e2e8f0; 
+            border-radius: 16px; font-size: 14px; outline: none; 
+        }
+        .input-style:focus { border-color: #3b82f6; background: white; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
         
-        .input-style { width: 100%; padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; font-size: 14px; outline: none; }
-        .input-style:focus { border-color: #3b82f6; background: white; }
         .hidden { display: none; }
-        i { display: inline-block !important; }
+        .btn-animate { transition: transform 0.1s active; }
+        .btn-animate:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-    <nav class="border-b border-gray-100 bg-white sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <span onclick="goHome()" class="text-xl font-black tracking-tighter text-blue-600 cursor-pointer uppercase">GATA.RO</span>
+    <nav class="border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-40 h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
+            <span onclick="goHome()" class="text-2xl font-black tracking-tighter text-blue-600 cursor-pointer">GATA<span class="text-slate-300">.RO</span></span>
+            
             <div class="flex items-center gap-4">
-                <div id="expiryAlert" class="hidden flex items-center gap-2 bg-red-50 text-red-600 px-3 py-1.5 rounded-full border border-red-100">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span class="text-[10px] font-bold uppercase tracking-tight text-red-600">CI Expirat</span>
+                <div id="expiryAlert" class="hidden flex items-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-full border border-red-100 shadow-sm">
+                    <i class="fa-solid fa-bell text-xs animate-bounce"></i>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest">CI Expirat</span>
                 </div>
-                <button onclick="toggleModal('profileModal')" class="w-10 h-10 bg-slate-50 text-slate-600 rounded-full flex items-center justify-center border border-slate-200 hover:border-blue-400">
-                    <i class="fa-solid fa-user-circle text-xl text-blue-600"></i>
+                <button onclick="toggleModal('profileModal')" class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center border border-blue-100 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                    <i class="fa-solid fa-user text-lg"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main id="homePage" class="max-w-5xl mx-auto py-20 px-6">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Salut, <span id="userNameDisplay">Coco</span>!</h1>
-            <p class="text-slate-400 font-medium italic">Preluăm automat datele tale din profil.</p>
+    <main id="homePage" class="max-w-5xl mx-auto py-24 px-6">
+        <div class="text-center mb-20">
+            <h1 class="text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Salut, <span id="userNameDisplay">Coco</span>!</h1>
+            <p class="text-slate-400 text-xl font-medium">Alege un proiect și lasă-mă pe mine să scriu actele.</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div onclick="openProject('auto')" class="nav-card p-10 flex flex-col items-center justify-center">
-                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-car"></i>
-                </div>
-                <span class="font-bold text-[10px] uppercase tracking-widest text-slate-600">Vânzare Auto</span>
-            </div>
-
-            <div class="nav-card disabled p-10 flex flex-col items-center justify-center">
-                <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-3xl flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-house"></i>
-                </div>
-                <span class="font-bold text-[10px] uppercase tracking-widest text-slate-400">Locuință</span>
-            </div>
-
-            <div class="nav-card disabled p-10 flex flex-col items-center justify-center">
-                <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-3xl flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <span class="font-bold text-[10px] uppercase tracking-widest text-slate-400">Muncă</span>
-            </div>
-
-            <div class="nav-card disabled p-10 flex flex-col items-center justify-center">
-                <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-3xl flex items-center justify-center mb-4 text-2xl">
-                    <i class="fa-solid fa-ellipsis"></i>
-                </div>
-                <span class="font-bold text-[10px] uppercase tracking-widest text-slate-400">Altele</span>
-            </div>
-        </div>
-    </main>
-
-    <main id="projectPage" class="max-w-4xl mx-auto py-12 px-6 hidden">
-        <button onclick="goHome()" class="text-slate-400 hover:text-blue-600 font-bold text-[10px] mb-10 flex items-center gap-2 uppercase tracking-widest">
-            <i class="fa-solid fa-arrow-left"></i> Înapoi la listă
-        </button>
-
-        <div class="text-center mb-12">
-            <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8">Cine ești în acest contract?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-16">
-                <button onclick="selectRole('vanzator')" class="nav-card p-10 flex flex-col items-center">
-                    <i class="fa-solid fa-hand-holding-dollar text-3xl text-blue-500 mb-4"></i>
-                    <span class="font-bold text-slate-800 uppercase text-xs">Sunt Vânzătorul</span>
-                </button>
-                <button onclick="selectRole('cumparator')" class="nav-card p-10 flex flex-col items-center">
-                    <i class="fa-solid fa-cart-shopping text-3xl text-blue-500 mb-4"></i>
-                    <span class="font-bold text-slate-800 uppercase text-xs">Sunt Cumpărătorul</span>
-                </button>
-            </div>
-        </div>
-
-        <div id="activeSection" class="hidden">
-            <div class="bg-blue-600 rounded-[2.5rem] p-10 mb-10 text-white shadow-xl shadow-blue-100">
-                <h3 class="text-center font-bold mb-8 uppercase tracking-widest text-[10px]">Pasul 2: Scanare Acte Partener și CIV</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <label class="bg-blue-500 border-2 border-dashed border-blue-300 rounded-2xl p-8 flex flex-col items-center cursor-pointer hover:bg-white hover:text-blue-600 transition-all">
-                        <i class="fa-solid fa-camera text-2xl mb-3"></i>
-                        <span id="scanLabel" class="text-[10px] font-bold uppercase">Scanare Buletin Partener</span>
-                        <input type="file" class="hidden" onchange="simulateDocumentFill()">
-                    </label>
-                    <label class="bg-blue-500 border-2 border-dashed border-blue-300 rounded-2xl p-8 flex flex-col items-center cursor-pointer hover:bg-white hover:text-blue-600 transition-all">
-                        <i class="fa-solid fa-car text-2xl mb-3"></i>
-                        <span class="text-[10px] font-bold uppercase">Scanare CIV (Carte Auto)</span>
-                        <input type="file" class="hidden" onchange="simulateDocumentFill()">
-                    </label>
-                </div>
-            </div>
-            
-            <div id="docsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                </div>
-        </div>
-    </main>
-
-    <div id="profileModal" class="modal px-4">
-        <div class="bg-white w-full max-w-2xl rounded-[3rem] p-10 shadow-2xl relative">
-            <button onclick="toggleModal('profileModal')" class="absolute top-10 right-10 text-slate-300 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <h2 class="text-2xl font-bold mb-8 text-slate-800 tracking-tight">Profilul tău</h2>
-            
-            <label class="w-full flex items-center justify-center gap-4 p-6 bg-green-50 border-2 border-dashed border-green-200 rounded-2xl cursor-pointer mb-8 hover:bg-green-100">
-                <i class="fa-solid fa-id-card text-green-600 text-2xl"></i>
-                <div class="text-left">
-                    <span class="block text-sm font-bold text-green-700 uppercase">Sc
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div onclick="openProject('auto')" class="nav-card p-12 flex flex-col items-center justify-center
