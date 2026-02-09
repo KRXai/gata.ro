@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gata.ro — Juridic AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .doc-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+    <header class="max-w-4xl mx-auto pt-20 px-6 text-center">
+        <h1 class="text-4xl font-bold mb-8 tracking-tight">GATA.RO</h1>
+        <div class="relative max-w-xl mx-auto">
+            <input type="text" id="searchInput" onkeyup="filterDocs()" placeholder="Caută documentul dorit... (ex: auto)" 
+                   class="w-full py-4 px-6 rounded-full border border-slate-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg">
+            <i class="fa-solid fa-magnifying-glass absolute right-6 top-5 text-slate-400"></i>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto py-16 px-6">
+        <div id="docsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="adeverinta salariat">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <span class="font-medium">Adeverință Salariat</span>
+            </div>
+
+            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="cerere eliberare buletin">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <span class="font-medium">Cerere Buletin</span>
+            </div>
+
+            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="contract inchiriere">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <span class="font-medium">Contract Închiriere</span>
+            </div>
+
+            <div class="doc-card bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center text-center cursor-pointer" data-name="contract vanzare cumparare auto">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+                <span class="font-medium">Contract Vânzare Auto</span>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function filterDocs() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('doc-card');
+            
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getAttribute('data-name');
+                if (name.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
