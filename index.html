@@ -3,110 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gata.ro — Profil Inteligent</title>
+    <title>Gata.ro — Acasă</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
-        .sb-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; }
-        .role-btn { transition: all 0.2s; border: 2px solid #e5e7eb; }
-        .role-btn:hover, .role-btn.active { border-color: #3b82f6; background-color: #eff6ff; }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #1e293b; }
+        .nav-card { background: white; border: 1px solid #e5e7eb; border-radius: 20px; transition: all 0.2s; cursor: pointer; }
+        .nav-card:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        .nav-card.disabled { opacity: 0.5; cursor: not-allowed; grayscale: 1; }
+        .hidden { display: none; }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
     <nav class="border-b border-gray-200 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <span class="text-xl font-bold tracking-tight text-blue-600">GATA.RO</span>
-            <div class="flex items-center gap-3">
-                <span class="text-xs font-semibold text-slate-500">Salut, Coco!</span>
-                <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold border border-blue-200">C</div>
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span onclick="window.location.reload()" class="text-xl font-bold tracking-tight text-blue-600 cursor-pointer">GATA.RO</span>
+            <div class="flex items-center gap-4">
+                <button class="text-slate-400 hover:text-blue-600 transition-colors">
+                    <i class="fa-solid fa-circle-user text-2xl"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto py-12 px-4">
-        
-        <div class="text-center mb-12">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-6">Cine ești în acest proces?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <button onclick="selectRole('vanzator')" class="role-btn p-8 rounded-2xl flex flex-col items-center bg-white shadow-sm">
-                    <i class="fa-solid fa-hand-holding-dollar text-3xl text-blue-500 mb-4"></i>
-                    <span class="font-bold text-lg text-slate-800">Eu vând mașina</span>
-                    <span class="text-xs text-slate-400 mt-2 italic">Datele tale de vânzător se preiau din profil</span>
-                </button>
-                <button onclick="selectRole('cumparator')" class="role-btn p-8 rounded-2xl flex flex-col items-center bg-white shadow-sm">
-                    <i class="fa-solid fa-cart-shopping text-3xl text-blue-500 mb-4"></i>
-                    <span class="font-bold text-lg text-slate-800">Eu cumpăr mașina</span>
-                    <span class="text-xs text-slate-400 mt-2 italic">Vom genera actele de impunere și înmatriculare</span>
-                </button>
+    <main id="homePage" class="max-w-5xl mx-auto py-16 px-6">
+        <div class="mb-12">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2 text-center">Bună, Coco!</h1>
+            <p class="text-slate-500 text-center">Ce documente vrei să generăm astăzi?</p>
+        </div>
+
+        <div class="max-w-xl mx-auto mb-16">
+            <div class="relative">
+                <input type="text" placeholder="Caută actul dorit..." class="w-full py-4 px-6 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white shadow-sm">
+                <i class="fa-solid fa-magnifying-glass absolute right-6 top-5 text-slate-300"></i>
             </div>
         </div>
 
-        <div id="scanSection" class="hidden animate-in fade-in duration-500">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 text-center">Pasul următor: Scanare date lipsă</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <label class="sb-card p-6 border-dashed border-2 flex flex-col items-center cursor-pointer">
-                    <i id="scanIcon" class="fa-solid fa-camera text-blue-500 text-xl mb-3"></i>
-                    <span id="scanLabel" class="text-sm font-medium text-center text-slate-700">Scanare Buletin Partener</span>
-                    <input type="file" class="hidden" accept="image/*">
-                </label>
-                <label class="sb-card p-6 border-dashed border-2 flex flex-col items-center cursor-pointer">
-                    <i class="fa-solid fa-car text-blue-500 text-xl mb-3"></i>
-                    <span class="text-sm font-medium text-center text-slate-700">Scanare Carte Vehicul (CIV)</span>
-                    <input type="file" class="hidden" accept="image/*">
-                </label>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            
+            <div onclick="openProject('auto')" class="nav-card p-8 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+                <span class="font-bold text-sm">Vânzare / Înmatriculare</span>
+            </div>
+
+            <div class="nav-card disabled p-8 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-house"></i>
+                </div>
+                <span class="font-bold text-sm text-slate-400">Închiriere Locuință</span>
+            </div>
+
+            <div class="nav-card disabled p-8 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <span class="font-bold text-sm text-slate-400">Contract Muncă</span>
+            </div>
+
+            <div class="nav-card disabled p-8 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+                <span class="font-bold text-sm text-slate-400">Alte Cereri</span>
             </div>
         </div>
+    </main>
 
-        <div class="mt-16">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-6 text-center">Actele Dosarului tău</h2>
-            <div id="docsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <main id="projectPage" class="max-w-5xl mx-auto py-12 px-6 hidden">
+        <button onclick="closeProject()" class="text-blue-600 font-bold text-sm mb-8 flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Înapoi la listă
+        </button>
+
+        <div class="mb-12">
+            <h1 class="text-2xl font-bold text-slate-900 mb-2">Dosar Înstrăinare Auto</h1>
+            <p class="text-slate-500 mb-8 font-medium italic italic">Datele tale de beneficiar vor fi preluate automat din profil.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
+                <button onclick="selectRole('vanzator')" class="nav-card p-6 flex flex-col items-center">
+                    <i class="fa-solid fa-hand-holding-dollar text-2xl text-blue-500 mb-3"></i>
+                    <span class="font-bold">Sunt Vânzător</span>
+                </button>
+                <button onclick="selectRole('cumparator')" class="nav-card p-6 flex flex-col items-center">
+                    <i class="fa-solid fa-cart-shopping text-2xl text-blue-500 mb-3"></i>
+                    <span class="font-bold">Sunt Cumpărător</span>
+                </button>
+            </div>
+
+            <div id="scanSection" class="hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <label class="nav-card p-6 border-dashed border-2 flex flex-col items-center cursor-pointer">
+                        <i class="fa-solid fa-camera text-blue-500 text-xl mb-3"></i>
+                        <span id="scanLabel" class="text-sm font-medium">Scanare Buletin Partener</span>
+                        <input type="file" class="hidden">
+                    </label>
+                    <label class="nav-card p-6 border-dashed border-2 flex flex-col items-center cursor-pointer">
+                        <i class="fa-solid fa-car text-blue-500 text-xl mb-3"></i>
+                        <span class="text-sm font-medium text-center">Scanare Carte Vehicul (CIV)</span>
+                        <input type="file" class="hidden">
+                    </label>
+                </div>
+            </div>
+
+            <div id="docsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
                 </div>
         </div>
-
     </main>
 
     <script>
+        function openProject(type) {
+            if(type === 'auto') {
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('projectPage').classList.remove('hidden');
+            }
+        }
+
+        function closeProject() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('projectPage').classList.add('hidden');
+        }
+
         function selectRole(role) {
-            // Afișează secțiunea de scanare
             document.getElementById('scanSection').classList.remove('hidden');
-            
             const grid = document.getElementById('docsGrid');
             const label = document.getElementById('scanLabel');
             
             if(role === 'vanzator') {
                 label.innerText = "Scanare Buletin CUMPĂRĂTOR";
                 grid.innerHTML = `
-                    <div class="sb-card p-6 border-l-4 border-l-blue-500">
-                        <div class="font-bold text-slate-800 text-sm mb-1 uppercase tracking-tight">Contract Vânzare</div>
-                        <div class="text-[10px] text-slate-400 uppercase italic">Datele tale incluse automat</div>
+                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm">
+                        <div class="text-[10px] text-blue-600 font-bold mb-2">DATE PROFIL UTILIZATE</div>
+                        <div class="font-bold text-sm">1. Contract Vânzare</div>
                     </div>
-                    <div class="sb-card p-6 border-l-4 border-l-blue-500">
-                        <div class="font-bold text-slate-800 text-sm mb-1 uppercase tracking-tight">Declarație Radiere</div>
-                        <div class="text-[10px] text-slate-400 uppercase italic">Model ITL-016</div>
+                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
+                        <div class="font-bold text-sm">2. Declarație Radiere</div>
                     </div>
                 `;
             } else {
                 label.innerText = "Scanare Buletin VÂNZĂTOR";
                 grid.innerHTML = `
-                    <div class="sb-card p-6 border-l-4 border-l-blue-500">
-                        <div class="font-bold text-slate-800 text-sm mb-1 uppercase tracking-tight">Contract Cumpărare</div>
-                        <div class="text-[10px] text-slate-400 uppercase italic">Datele tale incluse automat</div>
+                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
+                        <div class="font-bold text-sm">1. Contract Cumpărare</div>
                     </div>
-                    <div class="sb-card p-6 border-l-4 border-l-blue-500">
-                        <div class="font-bold text-slate-800 text-sm mb-1 uppercase tracking-tight">Declarație Impunere</div>
-                        <div class="text-[10px] text-slate-400 uppercase italic">Model ITL-005</div>
+                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
+                        <div class="font-bold text-sm">2. Declarație Impunere</div>
                     </div>
-                    <div class="sb-card p-6 border-l-4 border-l-blue-500">
-                        <div class="font-bold text-slate-800 text-sm mb-1 uppercase tracking-tight">Cerere Înmatriculare</div>
-                        <div class="text-[10px] text-slate-400 uppercase italic">Model DRPCIV</div>
+                    <div class="nav-card p-6 border-l-4 border-l-blue-500 shadow-sm text-center">
+                        <div class="font-bold text-sm">3. Cerere Înmatriculare</div>
                     </div>
                 `;
             }
         }
     </script>
-
 </body>
 </html>
